@@ -1,4 +1,3 @@
-import { error, time } from 'console';
 import React, { useEffect, useState } from 'react';
 
 type Word = {
@@ -51,6 +50,21 @@ const App: React.FC = () => {
       const typingSpeed = currentIndex / elapsedSec;
       const finalScore = Math.round(typingSpeed * typedCharCount);
       setScore(finalScore);
+
+      // スコア送信（バックエンドにPOST）
+      fetch('http://localhost:8080/api/scores', {
+        method: 'POST',
+        headers: {'Content-Tyoe': 'application/json' },
+        body: JSON.stringify({
+          username: 'guest', //ログイン機能と連携
+          score: finalScore,
+        }),
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error('スコア送信失敗');
+            console.log('スコア送信成功');
+        })
+        .catch((err) => console.error('Error fetching words', err));
     }
   };
 
