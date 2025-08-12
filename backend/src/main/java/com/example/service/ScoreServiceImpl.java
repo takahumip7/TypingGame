@@ -5,14 +5,13 @@ import org.springframework.stereotype.Service;
 import com.example.entity.Score;
 import com.example.mapper.ScoreMapper;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class ScoreServiceImpl implements ScoreService{
 
 	private final ScoreMapper scoreMapper;
-	
-	public ScoreServiceImpl(ScoreMapper scoreMapper) {
-		this.scoreMapper = scoreMapper;
-	}
 
 	@Override
 	public void saveScore(Score score) {

@@ -19,42 +19,30 @@ const App: React.FC = () => {
   useEffect(() => {
     fetch('http://localhost:8080/api/words')
       .then((res) => res.json())
-      .then((data) => setWords(data))
+      .then((data) => {
+        setWords(data);
+        setStartTime(Date.now());
+      })
       .catch((err) => console.error('Error fetching words', err));
   }, []);
 
-  // タイマー処理
-  useEffect(() => {
-    if (timeLeft > 0 && words.length > 0 && !gameOver) {
-      const timer = setInterval(() => {
-        setTimeLeft(prev => prev -1);
-      }, 1000);
-      return () => clearInterval(timer);
-    }else if (timeLeft === 0 && !gameOver) {
-      finishGame();
-    }
-  }, [timeLeft, words, gameOver]);
-
-  //全単語打ち終えたら即終了
-  useEffect(() => {
-    if (!gameOver && currentIndex >= words.length && words.length > 0) {
-      finishGame();
-    }
-  }, [timeLeft, words, gameOver]);
-
   // ゲーム終了処理
   const finishGame = () => {
+    if(gameOver) return; //二重実行防止
     setGameOver(true);
+
     if (startTime !== null) {
       const elapsedSec = (Date.now() - startTime) / 1000;
-      const typingSpeed = currentIndex / elapsedSec;
-      const finalScore = Math.round(typingSpeed * typedCharCount);
+      // const typingSpeed = typedCharCount / elapsedSec;
+      const finalScore = Math.round((typedCharCount * typedCharCount) / elapsedSec);
       setScore(finalScore);
 
       // スコア送信（バックエンドにPOST）
       fetch('http://localhost:8080/api/scores', {
         method: 'POST',
-        headers: {'Content-Tyoe': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
           username: 'guest', //ログイン機能と連携
           score: finalScore,
@@ -68,6 +56,18 @@ const App: React.FC = () => {
     }
   };
 
+  // タイマー処理
+  useEffect(() => {
+    if (timeLeft > 0 && words.length > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft(prev => prev -1);
+      }, 1000);
+      return () => clearInterval(timer);
+    }else if (timeLeft === 0 && !gameOver) {
+      finishGame(); //タイマー終了時にゲーム終了
+    }
+  }, [timeLeft, words, gameOver]);
+
   // 入力チェック
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -75,14 +75,21 @@ const App: React.FC = () => {
 
     if (value === words[currentIndex]?.text) {
       const wordLength = value.length;
+      setTypedCharCount(prev => prev + wordLength);
       setScore(prev => prev + wordLength);
       setInput('');
       setCurrentIndex(prev => prev + 1);
+
+      //全単語打ち終えたら即終了
+      if (currentIndex + 1 === words.length) {
+        finishGame();
+      }
     }
   };
 
   // 再スタート処理
   const handleRestart = () => {
+    setWords([]);
     setTypedCharCount(0);
     setStartTime(null);
     setTimeLeft(30);
@@ -94,7 +101,10 @@ const App: React.FC = () => {
     // 単語再取得
     fetch('http://localhost:8080/api/words')
       .then((res) => res.json())
-      .then((data) => setWords(data))
+      .then((data) => {
+        setWords(data);
+        setStartTime(Date.now());
+      })
       .catch((err) => console.error('Error fetching words', err));
   }
 
@@ -107,7 +117,8 @@ const App: React.FC = () => {
       {gameOver ? (
         <>
           <h2>ゲーム終了！お疲れ様でした。</h2>
-          <button onClick={handleRestart} style={{ padding: 10, fontSize: 16}}>もう一度プレイ</button>
+          <p>あなたのスコア: {score}</p>
+          <button onClick={handleRestart} style={{ padding: 10, fontSize: 16}}>再スタート</button>
         </>
       ) : words.length > 0 ? (
         <>

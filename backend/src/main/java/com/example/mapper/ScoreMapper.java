@@ -8,6 +8,6 @@ import com.example.entity.Score;
 @Mapper
 public interface ScoreMapper {
 
-    @Insert("INSERT INTO scores (username, score) VALUES (#{username}, #{score})")
+    @Insert("INSERT INTO scores (username, score) VALUES (#{userName}, #{score})")
     void insertScore(Score score);
 }

@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import java.time.LocalDateTime;
+
 public class Score {
 	
 	private int id;
@@ -7,6 +9,8 @@ public class Score {
 	private String userName;
 	
 	private int score;
+	
+	private LocalDateTime createdAt;
 
 	public int getId() {
 		return id;
@@ -30,6 +34,14 @@ public class Score {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 	
