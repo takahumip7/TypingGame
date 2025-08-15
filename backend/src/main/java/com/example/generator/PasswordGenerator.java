@@ -1,4 +1,4 @@
-package com.example;
+package com.example.generator;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
