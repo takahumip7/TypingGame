@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +36,7 @@ public class ScoreApiController {
 		
 		// スコアにユーザーをセット
 		score.setUser(user);
+		score.setCreatedAt(LocalDateTime.now());;
 		
 		// 保存
 		scoreService.saveScore(score);

@@ -41,18 +41,23 @@ const Game: React.FC = () => {
 
     if (startTime !== null) {
       const elapsedSec = (Date.now() - startTime) / 1000;
-      const finalScore = Math.round((typedCharCount * typedCharCount) / elapsedSec);
+
+      // タイピング速度とスコア計算
+      const typingSpeed = typedCharCount / elapsedSec;
+      const finalScore = Math.round(typingSpeed * typedCharCount);
       setScore(finalScore);
 
       // スコア送信（バックエンドにPOST）
+      const token = localStorage.getItem("jwt");
+
       fetch('http://localhost:8080/api/scores', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
         },
         body: JSON.stringify({
-          score: finalScore,
+          score: finalScore, // ユーザーはバックエンド側でJWTから取得
         }),
       })
         .then((res) => {

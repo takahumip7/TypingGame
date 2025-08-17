@@ -3,7 +3,7 @@ package com.example.service;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.Score;
-import com.example.mapper.ScoreMapper;
+import com.example.repository.ScoreRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -11,11 +11,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ScoreServiceImpl implements ScoreService{
 
-	private final ScoreMapper scoreMapper;
+	private final ScoreRepository scoreRepository;
 
 	@Override
 	public void saveScore(Score score) {
-		scoreMapper.insertScore(score);
+		scoreRepository.save(score);
 	}
 	
 }
