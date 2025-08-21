@@ -7,3 +7,32 @@
 
 ## 終了画面
 <img width="425" height="466" alt="スクリーンショット 2025-08-17 9 32 29" src="https://github.com/user-attachments/assets/930bc233-19d8-4c6f-8f67-40066791950d" />
+
+
+## プロジェクト概要
+- タイピング速度と正確さを競うシンプルなWebアプリ
+- バックエンド：Spring Boot + MySQL + JWT認証
+- フロントエンド：React
+
+---
+
+## 使用技術
+- Java 21 / Spring Boot
+- React 19
+- MySQL 9
+- JWT認証（Spring Security）
+
+---
+
+## セットアップ方法
+
+### 必要環境
+- Java 21
+- Node.js 20
+- MySQL 9（Dockerで自動構築可能）
+
+### クローンと起動
+```bash
+git clone <リポジトリURL>
+cd typing-game
+docker-compose up -d
