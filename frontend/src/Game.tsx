@@ -70,12 +70,12 @@ const Game: React.FC = () => {
 
   // タイマー処理
   useEffect(() => {
-    if (timeLeft > 0 && words.length > 0) {
+    if (timeLeft > 0 && words.length > 0 && !gameOver) {
       const timer = setInterval(() => {
         setTimeLeft(prev => prev -1);
       }, 1000);
       return () => clearInterval(timer);
-    }else if (timeLeft === 0 && !gameOver) {
+    }else if ((timeLeft === 0 || gameOver) && !gameOver) {
       finishGame(); //タイマー終了時にゲーム終了
     }
   }, [timeLeft, words, gameOver]);
