@@ -7,6 +7,7 @@ type Props = {
 const Register: React.FC<Props> = ({ onRegister }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleRegister = async () => {
     try{
@@ -19,8 +20,14 @@ const Register: React.FC<Props> = ({ onRegister }) => {
       if (!res.ok) throw new Error("登録失敗");
 
       const msg = await res.text();
-      alert(msg);
-      onRegister();
+      //登録完了メッセージを表示
+      setSuccessMessage(`登録完了！ようこそ ${username}さん！ Ready GO！！`);
+
+      //3秒後にゲーム画面へ遷移
+      setTimeout(() => {
+        onRegister();
+      }, 3000);
+      
     } catch(err) {
       console.error(err);
       alert("登録に失敗しました。");
@@ -37,6 +44,8 @@ const Register: React.FC<Props> = ({ onRegister }) => {
         <input type="password" placeholder='パスワード' value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
       <button onClick={handleRegister}>登録</button>
+
+      {successMessage && <p>{successMessage}</p>}
     </div>
   );
 };
