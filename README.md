@@ -35,10 +35,4 @@
 ### 必要環境
 - Java 21
 - Node.js 20
-- MySQL 9（Dockerで自動構築可能）
-
-### クローンと起動
-```bash
-git clone <リポジトリURL>
-cd typing-game
-docker-compose up -d
+- MySQL 9
