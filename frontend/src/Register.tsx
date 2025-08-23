@@ -8,7 +8,10 @@ const Register: React.FC<Props> = ({ onRegister }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+<<<<<<< HEAD
 
+=======
+>>>>>>> c0eef99c787acb39136987d17696290517a9c4a6
 
   const handleRegister = async () => {
     try{
@@ -21,6 +24,7 @@ const Register: React.FC<Props> = ({ onRegister }) => {
 
       if (!res.ok) throw new Error("登録失敗");
 
+<<<<<<< HEAD
       // 登録完了メッセージを表示
       setSuccessMessage(`登録完了！始まるよ！ ${username} さん`);
 
@@ -41,6 +45,17 @@ const Register: React.FC<Props> = ({ onRegister }) => {
         onRegister();
       }, 3000);
 
+=======
+      const msg = await res.text();
+      //登録完了メッセージを表示
+      setSuccessMessage(`登録完了！ようこそ ${username}さん！ Ready GO！！`);
+
+      //3秒後にゲーム画面へ遷移
+      setTimeout(() => {
+        onRegister();
+      }, 3000);
+      
+>>>>>>> c0eef99c787acb39136987d17696290517a9c4a6
     } catch(err) {
       console.error(err);
       alert("登録またはログインに失敗しました。");

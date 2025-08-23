@@ -14,7 +14,11 @@ const App: React.FC = () => {
   return (
     <>
       {showRegister ? (
+<<<<<<< HEAD
         <Register onRegister={() => setIsLoggedIn(true)} />
+=======
+        <Register onRegister={() => setIsLoggedIn(false)} />
+>>>>>>> c0eef99c787acb39136987d17696290517a9c4a6
       ) : (
         <Login onLogin={() => setIsLoggedIn(true)} />
       )}
