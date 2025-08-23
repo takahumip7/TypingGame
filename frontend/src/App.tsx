@@ -14,7 +14,7 @@ const App: React.FC = () => {
   return (
     <>
       {showRegister ? (
-        <Register onRegister={() => setShowRegister(false)} />
+        <Register onRegister={() => setIsLoggedIn(true)} />
       ) : (
         <Login onLogin={() => setIsLoggedIn(true)} />
       )}

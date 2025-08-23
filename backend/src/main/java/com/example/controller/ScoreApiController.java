@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dto.ScoreRequest;
 import com.example.entity.Score;
 import com.example.entity.User;
 import com.example.repository.UserRepository;
@@ -26,7 +27,7 @@ public class ScoreApiController {
 	private final UserRepository userRepository;
 	
 	@PostMapping
-	public String saveScore(@RequestBody Score score, Authentication authentication) {
+	public String saveScore(@RequestBody ScoreRequest request, Authentication authentication) {
 		
 		// JWTからログイン中のユーザー名取得
 		String username = authentication.getName();
@@ -35,8 +36,10 @@ public class ScoreApiController {
 		User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
 		
 		// スコアにユーザーをセット
-		score.setUser(user);
-		score.setCreatedAt(LocalDateTime.now());;
+		Score score = new Score();
+		score.setUser(user); // JWTから取得したユーザーを紐付け
+		score.setScore(request.getScore()); // フロントから送られたスコアをセット
+		score.setCreatedAt(LocalDateTime.now()); // サーバー側で保存時刻をセット
 		
 		// 保存
 		scoreService.saveScore(score);

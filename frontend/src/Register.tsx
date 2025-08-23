@@ -7,9 +7,12 @@ type Props = {
 const Register: React.FC<Props> = ({ onRegister }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
 
   const handleRegister = async () => {
     try{
+      // 新規登録
       const res = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -18,12 +21,29 @@ const Register: React.FC<Props> = ({ onRegister }) => {
 
       if (!res.ok) throw new Error("登録失敗");
 
-      const msg = await res.text();
-      alert(msg);
-      onRegister();
+      // 登録完了メッセージを表示
+      setSuccessMessage(`登録完了！始まるよ！ ${username} さん`);
+
+      // 登録後、そのままログイン
+      const loginRes = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({username, password})
+      });
+
+      if (!loginRes) throw new Error("ログイン失敗") ;
+
+      const token = await loginRes.text(); // JWTが返ってくる
+      localStorage.setItem("jwt", token); //保存
+
+      // 1秒後にゲーム画面へ遷移
+      setTimeout(() => {
+        onRegister();
+      }, 3000);
+
     } catch(err) {
       console.error(err);
-      alert("登録に失敗しました。");
+      alert("登録またはログインに失敗しました。");
     }
   };
 
@@ -37,6 +57,8 @@ const Register: React.FC<Props> = ({ onRegister }) => {
         <input type="password" placeholder='パスワード' value={password} onChange={(e) => setPassword(e.target.value)} />
       </div>
       <button onClick={handleRegister}>登録</button>
+
+      {successMessage && <p>{successMessage}</p>}
     </div>
   );
 };
