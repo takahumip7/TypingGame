@@ -9,6 +9,11 @@
 
 ---
 
+## ランキング機能
+<img width="477" height="501" alt="スクリーンショット 2025-08-25 21 50 40" src="https://github.com/user-attachments/assets/6263ed29-ea0f-4621-a090-d6b7dbd79d05" />
+
+---
+
 ## 終了画面
 <img width="425" height="466" alt="スクリーンショット 2025-08-17 9 32 29" src="https://github.com/user-attachments/assets/930bc233-19d8-4c6f-8f67-40066791950d" />
 
