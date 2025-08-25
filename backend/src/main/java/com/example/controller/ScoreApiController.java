@@ -1,17 +1,22 @@
 package com.example.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dto.RankingResponse;
 import com.example.dto.ScoreRequest;
 import com.example.entity.Score;
 import com.example.entity.User;
+import com.example.repository.ScoreRepository;
 import com.example.repository.UserRepository;
 import com.example.service.ScoreService;
 
@@ -25,6 +30,7 @@ public class ScoreApiController {
 
 	private final ScoreService scoreService;
 	private final UserRepository userRepository;
+	private final ScoreRepository scoreRepository;
 	
 	@PostMapping
 	public String saveScore(@RequestBody ScoreRequest request, Authentication authentication) {
@@ -44,5 +50,10 @@ public class ScoreApiController {
 		// 保存
 		scoreService.saveScore(score);
 		return "Score saved successfully";
+	}
+	
+	@GetMapping("ranking")
+	public List<RankingResponse> getRanking() {
+		return scoreRepository.findRanking(PageRequest.of(0, 10));
 	}
 }

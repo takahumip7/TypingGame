@@ -36,6 +36,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/api/auth/**").permitAll()// 認証不要
 				.requestMatchers("/api/words").permitAll()
+				.requestMatchers("/api/scores/ranking").permitAll()
 				.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // 追加
 				.anyRequest().authenticated()
 			)
