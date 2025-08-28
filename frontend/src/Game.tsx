@@ -5,7 +5,11 @@ type Word = {
   text: string;
 }
 
-const Game: React.FC = () => {
+type Props = {
+  isLoggedIn: boolean;
+}
+
+const Game: React.FC<Props> = ({isLoggedIn}) => {
   const [words, setWords] = useState<Word[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [input, setInput] = useState('');
@@ -19,9 +23,9 @@ const Game: React.FC = () => {
   useEffect(() => {
     const token = localStorage.getItem("jwt"); // 保存されたJWT取得
     fetch('http://localhost:8080/api/words', {
-      headers: {
-        "Authorization": `Bearer ${token}` //JWTを送信
-      }
+      headers: token ? { 
+        "Authorization": `Bearer ${token}` //JWTがあるときだけ送信
+      } : {} // 未ログイン
     })
       .then((res) => {
         if (!res.ok) throw new Error("認証エラー");
@@ -47,24 +51,29 @@ const Game: React.FC = () => {
       const finalScore = Math.round(typingSpeed * typedCharCount);
       setScore(finalScore);
 
-      // スコア送信（バックエンドにPOST）
-      const token = localStorage.getItem("jwt");
+      if (isLoggedIn) {
+        // スコア送信（バックエンドにPOST）
+        const token = localStorage.getItem("jwt");
 
-      fetch('http://localhost:8080/api/scores', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-        },
-        body: JSON.stringify({
-          score: finalScore, // ユーザーはバックエンド側でJWTから取得
-        }),
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error('スコア送信失敗');
-            console.log('スコア送信成功');
+        fetch('http://localhost:8080/api/scores', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            score: finalScore, // ユーザーはバックエンド側でJWTから取得
+          }),
         })
-        .catch((err) => console.error('Error fetching words', err));
+          .then((res) => {
+            if (!res.ok) throw new Error('スコア送信失敗');
+              console.log('スコア送信成功');
+          })
+          .catch((err) => console.error('Error fetching words', err));
+      } else {
+        console.log("未ログインのためスコアは保存されません。");
+      }
+
     }
   };
 

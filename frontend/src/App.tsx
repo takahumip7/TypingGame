@@ -9,6 +9,12 @@ const App: React.FC = () => {
   const [showRegister, setShowRegister] = useState(false);
   const [currentScreen, setCurrentScreen] = useState<"game" | "ranking">("game"); // ログイン後の画面
 
+  const handleLogout = () => {
+    localStorage.removeItem("jwt"); // JWT削除
+    setIsLoggedIn(false); // ログイン状態をリセット
+    setCurrentScreen("game"); // 初期画面に戻す（任意）
+  }
+
   if (!isLoggedIn) {
     // 未ログイン時はLogin/Register切り替え
     return (
@@ -37,13 +43,16 @@ const App: React.FC = () => {
         <button onClick={() => setCurrentScreen("game")} style={{ marginRight: 10 }}>
           ゲーム
         </button>
-        <button onClick={() => setCurrentScreen("ranking")}>
+        <button onClick={() => setCurrentScreen("ranking")} style={{ marginRight: 10 }}>
           ランキング
+        </button>
+        <button onClick={handleLogout}> 
+          ログアウト
         </button>
       </nav>
 
       <div style={{ marginTop: 20 }}>
-        {currentScreen === "game" && <Game />}
+        {currentScreen === "game" && <Game isLoggedIn={isLoggedIn} />}
         {currentScreen === "ranking" && <Ranking />}
       </div>
     </>
