@@ -1,0 +1,22 @@
+# ルート: typing-game/docker-compose.yml
+services:
+  db:
+    image: mysql:8.0
+    container_name: TypingGame-mysql
+    command: [
+      "--skip-character-set-client-handshake" # 日本語文字化け制御
+    ]
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: typinggame
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqlpass
+
+    ports:
+      - "3307:3306" # ローカルからアクセスする場合
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+
+volumes:
+  db_data: {}

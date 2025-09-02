@@ -1,16 +1,29 @@
 server:
   port: 8080
 
+# ローカル環境での設定
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/typing?useSSL=false&serverTimezone=Asia/Tokyo
+#    username: root
+#    password: Takahumi7
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+
+
+# Dockerでの設定
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/typing?useSSL=false&serverTimezone=Asia/Tokyo
-    username: root
-    password: Takahumi7
+    url: jdbc:mysql://localhost:3307/typinggame?useSSL=false&serverTimezone=Asia/Tokyo&allowPublicKeyRetrieval=true
+    username: mysqluser
+    password: mysqlpass
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-
-# JWTやセキュリティ設定を後で追加可能
