@@ -32,12 +32,26 @@
 - React 19
 - MySQL 9
 - JWT認証（Spring Security）
+- Docker / Docker Compose
 
 ---
 
 ## セットアップ方法
+- Docker を利用する場合
+
+・ リポジトリのルートで以下を実行
+ docker compose up -d db
+ docker compose up -d app
+ - DB起動後にAppを起動する
+  1.db コンテナ : MySQL を起動
+  2.app コンテナ : Spring Boot アプリケーションを起動
+
+・停止・削除する場合
+- docker compose down -v
+
 
 ### 必要環境
 - Java 21
 - Node.js 20
 - MySQL 9
+- Docker / Docker Compose
