@@ -17,6 +17,17 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
+  app:
+    build: ./backend
+    container_name: TypingGame-app
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/typinggame?useSSL=false&serverTimezone=Asia/Tokyo&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: mysqluser
+      SPRING_DATASOURCE_PASSWORD: mysqlpass
 
 volumes:
   db_data: {}
