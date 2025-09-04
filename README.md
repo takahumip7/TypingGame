@@ -39,16 +39,17 @@
 ## セットアップ方法
 - Docker を利用する場合
 
-・ リポジトリのルートで以下を実行
- docker compose up -d db
- docker compose up -d app
- - DB起動後にAppを起動する
-  1.db コンテナ : MySQL を起動
-  2.app コンテナ : Spring Boot アプリケーションを起動
+ - リポジトリのルートで以下を実行<br>
+ docker compose up -d db<br>
+ docker compose up -d app<br>
+ - DB起動後にAppを起動する<br>
+  1.db コンテナ : MySQL を起動<br>
+  2.app コンテナ : Spring Boot アプリケーションを起動<br>
 
-・停止・削除する場合
-- docker compose down -v
+ - 停止・削除する場合<br>
+  docker compose down -v<br>
 
+---
 
 ### 必要環境
 - Java 21
