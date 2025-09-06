@@ -17,9 +17,9 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
-  app:
+  backend:
     build: ./backend
-    container_name: TypingGame-app
+    container_name: TypingGame-backend
     depends_on:
       - db
     ports:
@@ -28,6 +28,21 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/typinggame?useSSL=false&serverTimezone=Asia/Tokyo&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: mysqluser
       SPRING_DATASOURCE_PASSWORD: mysqlpass
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: TypingGame-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/frontend   # ローカルのコードをマウント
+      - /frontend/node_modules # node_modules はコンテナ内を利用
+    stdin_open: true
+    tty: true
 
 volumes:
   db_data: {}

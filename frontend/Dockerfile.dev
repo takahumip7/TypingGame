@@ -1,0 +1,13 @@
+# frontend/Dockerfile.dev
+FROM node:20-alpine
+WORKDIR /frontend
+
+# ホットリロード対応のために /frontend/node_modules をコンテナ内に保持
+COPY package.json package-lock.json ./
+RUN npm install
+
+# 開発中はホストのソースをマウントするのでCOPYは最小限
+COPY . .
+
+EXPOSE 3000
+CMD ["npm", "start"]
