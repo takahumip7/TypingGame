@@ -1,5 +1,5 @@
 FROM eclipse-temurin:21-jdk AS build
-WORKDIR /app
+WORKDIR /backend
 
 # 依存関係のキャッシュ用
 COPY build.gradle settings.gradle gradlew ./
@@ -12,8 +12,8 @@ RUN ./gradlew bootJar --no-daemon
 
 # 実行用ステージ
 FROM eclipse-temurin:21-jre
-WORKDIR /app
-COPY --from=build /app/build/libs/typinggame-0.0.1-SNAPSHOT.jar app.jar
+WORKDIR /backend
+COPY --from=build /backend/build/libs/typinggame-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 
