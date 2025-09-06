@@ -41,10 +41,12 @@
 
  - リポジトリのルートで以下を実行<br>
  docker compose up -d db<br>
- docker compose up -d app<br>
+ docker compose up -d backend<br>
+ docker compose up -d frontend<br>
  - DB起動後にAppを起動する<br>
   1.db コンテナ : MySQL を起動<br>
-  2.app コンテナ : Spring Boot アプリケーションを起動<br>
+  2.backend コンテナ : Spring Boot アプリケーションを起動<br>
+  3.frontend コンテナ : react アプリケーションを起動<br>
 
  - 停止・削除する場合<br>
   docker compose down -v<br>
