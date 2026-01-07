@@ -55,6 +55,6 @@
 
 ### 必要環境
 - Java 21
-- Next.js 20
+- Node.js 20
 - MySQL 9
 - Docker / Docker Compose
